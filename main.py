@@ -3,11 +3,10 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 from tkinter import IntVar
 
-import nump as nump
+#import nump as nump
 import numpy as np
 from tkinter import *
-from tkinter.ttk import Combobox
-from tkinter.ttk import Radiobutton
+from tkinter import ttk
 from tkinter import messagebox
 from numpy import ndarray
 
@@ -25,13 +24,24 @@ def convertStr(s):  # Rjydthnbhetv Str в Int
     return ret
 
 def autoCreate(sz):
-    items: int | ndarray[int] = np.random.randint(1, high=101, size=sz*sz)
+    items: int or ndarray[int] = np.random.randint(1, high=101, size=sz*sz)
     #print(len(items), items[:sz*sz])  # 100000 [73846 49707 18846 73887 43349]
     return items
 
+def addMass():
+    items = [[0 for i in range(x)] for j in range(x)]
+    for i in range(x):
+        for j in range(x):
+            items[i][j] = var[i][j].get()
+            print(items[i][j])
+        print("\n")
+
 def clicked():
     m = combo.get()
+    global x
+    global var
     x = convertStr(m)
+    var = [[IntVar() for i in range(x)] for j in range(x)]
 
     if x != "error" :
         if x < 2 or x > 8 :
@@ -49,17 +59,32 @@ def clicked():
             else:
                 lbl2.configure(text="С ручным заполнением", font=("Arial Bold", 12))
                 for r in range(x):
-                    for c in range (x):
-                        ____b = Spinbox(window, from_=1, to=100, width=2)
-                        ____b.grid(column=c, row=r+3)
-                        ____b.pack()
-                        ____buttons.append(b)
+                    for c in range(x):
+                        spinb = ttk.Spinbox(window, textvariable=var[r][c], from_=1, to=100, width=2)
+                        spinb.grid(column=c, row=r+3)
+                        buttons.append(spinb)
+
+                clickButton = ttk.Button(window, command=addMass, text="Submit", width=6)
+                clickButton.grid(column=1, row=9)
+                buttons.append(clickButton)
+
 
             lbl1.configure(text=res)
             lbl4.configure(text=" ")
             combo.destroy()
             rad1.destroy()
             rad2.destroy()
+
+def test():
+    root = Tk()
+    root.title("METANIT.COM")
+    root.geometry("250x200")
+
+    # стандартная кнопка
+    btn = ttk.Button(text="Button")
+    btn.pack()
+
+    root.mainloop()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -71,7 +96,7 @@ if __name__ == '__main__':
     lbl2 = Label(window, text=" ")
     lbl2.grid(column=0, row=1)
 
-    combo = Combobox(window, width=2)
+    combo = ttk.Combobox(window, width=2)
     combo['values'] = (2, 4, 6, 8)
     combo.current(0)  # установите вариант по умолчанию
     combo.grid(column=0, row=2)
