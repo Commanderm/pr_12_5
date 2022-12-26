@@ -11,7 +11,7 @@ from tkinter.ttk import Radiobutton
 from tkinter import messagebox
 from numpy import ndarray
 
-buttons = []
+#buttons = []
 
 def print_string(name):
     print(f'{name}')
@@ -48,12 +48,16 @@ def clicked():
                 items = autoCreate(x)
             else:
                 lbl2.configure(text="С ручным заполнением", font=("Arial Bold", 12))
+                frame.matrix.clear()
                 for r in range(x):
+                    line = []
                     for c in range (x):
-                        ____b = Spinbox(window, from_=1, to=100, width=2)
-                        ____b.grid(column=c, row=r+3)
-                        ____b.pack()
-                        ____buttons.append(b)
+                        spin = Spinbox(frame, from_=1, to=100, width=3)
+                        spin.grid(column=c, row=r+2)
+                        #                       ____b = Spinbox(window, from_=1, to=100, width=2)
+ #                       ____b.grid(column=c, row=r+3)
+ #                       ____b.pack()
+ #                       ____buttons.append(b)
 
             lbl1.configure(text=res)
             lbl4.configure(text=" ")
@@ -65,10 +69,15 @@ def clicked():
 if __name__ == '__main__':
     window = Tk()
     window.title("Практическая работа 12, вариант 5")
-    lbl1 = Label(window, text="Для создания квадратной матрицы MxM укажите её размерность M.\n"
+
+    frame = Frame(window)
+    frame.matrix = []
+    frame.grid(row=0, column=0, columnspan=2)
+
+    lbl1 = Label(frame, text="Для создания квадратной матрицы MxM укажите её размерность M.\n"
                              "M может быть только чётным числом из диапазона [2, 8]", font=("Arial Bold", 12))
     lbl1.grid(column=0, row=0)
-    lbl2 = Label(window, text=" ")
+    lbl2 = Label(frame, text=" ")
     lbl2.grid(column=0, row=1)
 
     combo = Combobox(window, width=2)
